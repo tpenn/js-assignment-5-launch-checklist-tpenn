@@ -40,11 +40,19 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
     // console.log(validate);
     if (validate.includes('Empty')) {
         window.alert('All fields are required, please complete the entire form.');
-        return event.preventDefault();
+        try {
+            return event.preventDefault();
+        } catch {
+            return;
+        }
     }
     if (!validate.every((value, index) => value === correct[index])) {
         window.alert('Please make sure to enter valid information for every field.');
-        return event.preventDefault();
+        try {
+            return event.preventDefault();
+        } catch {
+            return;
+        }
     }
 
     const launchStatus  = document.getElementById('launchStatus');
@@ -65,7 +73,9 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
         launchStatus.innerHTML   = 'Shuttle is Ready for Launch';
     }
 
-    event.preventDefault();
+    try {
+        event.preventDefault();
+    } catch {}
 }
 
 async function myFetch() {
