@@ -37,14 +37,35 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
     const validate = [pilot, copilot, fuelLevel, cargoLevel].map(validateInput);
     const correct  = ['Not a Number', 'Not a Number', 'Is a Number', 'Is a Number'];
 
-    console.log(validate);
+    // console.log(validate);
     if (validate.includes('Empty')) {
         window.alert('All fields are required, please complete the entire form.');
-        event.preventDefault();
-    } else if (!validate.every((value, index) => value === correct[index])) {
-        window.alert('Please make sure to enter valid information for every field.');
-        event.preventDefault();
+        return event.preventDefault();
     }
+    if (!validate.every((value, index) => value === correct[index])) {
+        window.alert('Please make sure to enter valid information for every field.');
+        return event.preventDefault();
+    }
+
+    const launchStatus  = document.getElementById('launchStatus');
+    const insufficientFuel   = +fuelLevel < 10000;
+    const excessiveCargoMass = +cargoLevel > 10000;
+    
+    document.getElementById('pilotStatus').innerHTML = `Pilot ${pilot} is ready for launch`;
+    document.getElementById('copilotStatus').innerHTML = `Co-pilot ${copilot} is ready for launch`;
+    document.getElementById('fuelStatus').innerHTML = `Fuel level ${insufficientFuel ? "too low" : "high enough"} for launch`;
+    document.getElementById('cargoStatus').innerHTML = `Cargo mass ${excessiveCargoMass ? "too heavy" : "low enough"} for launch`;
+    list.style.visibility = "visible";
+    
+    if (insufficientFuel || excessiveCargoMass) {
+        launchStatus.style.color = 'rgb(199, 37, 78)';
+        launchStatus.innerHTML   = 'Shuttle Not Ready for Launch';
+    } else {
+        launchStatus.style.color = 'rgb(65, 159, 106)';
+        launchStatus.innerHTML   = 'Shuttle is Ready for Launch';
+    }
+
+    event.preventDefault();
 }
 
 async function myFetch() {
