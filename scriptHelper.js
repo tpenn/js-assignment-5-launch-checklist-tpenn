@@ -33,17 +33,24 @@ function validateInput(testInput) {
     return 'Is a Number';
 }
 
+function resetLaunchStatus(list, launchStatus) {
+    list.style.visibility    = 'hidden';
+    launchStatus.style.color = '';
+    launchStatus.innerHTML   = 'Awaiting Information Before Launch';
+}
+
 function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
     const validate = [pilot, copilot, fuelLevel, cargoLevel].map(validateInput);
     const correct  = ['Not a Number', 'Not a Number', 'Is a Number', 'Is a Number'];
 
-    // console.log(validate);
+    const launchStatus = document.getElementById('launchStatus');
     if (validate.includes('Empty')) {
+        resetLaunchStatus(list, launchStatus);
         window.alert('All fields are required, please complete the entire form.');
     } else if (!validate.every((value, index) => value === correct[index])) {
+        resetLaunchStatus(list, launchStatus);
         window.alert('Please make sure to enter valid information for every field.');
     } else {
-        const launchStatus       = document.getElementById('launchStatus');
         const insufficientFuel   = +fuelLevel < 10000;
         const excessiveCargoMass = +cargoLevel > 10000;
         
