@@ -18,6 +18,17 @@ div {
    border: 3px solid black;
    padding: 10px;
 }
+#launchForm div {
+   display: table-row;
+}
+#launchForm label {
+   display: table-cell;
+   padding-right: 10px;
+   padding-bottom: 10px;
+}
+#launchForm input {
+   display: table-cell;
+}
 
 #launchStatusCheck {
    background-color: #ECF0F1;
